@@ -1,10 +1,20 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from werkzeug.utils import secure_filename
+import os
+import uuid
+
+
+IMAGE_UPLOAD_FOLDER = '/static/img'
+EXTENSIONS = set(['jpg', 'jpeg'])
+
+
 
 app = Flask(__name__)
 application = app
@@ -31,7 +41,7 @@ class PostForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
     body = StringField('Description:', validators=[DataRequired()])
     price = StringField('Price:', validators=[DataRequired()])
-    pic = StringField('Photo:', validators=[DataRequired()])
+    pic = FileField(validators=[FileRequired()]) 
 
     submit = SubmitField('Post!')
 
@@ -39,7 +49,7 @@ class UpdateForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
     body = StringField('Description:', validators=[DataRequired()])
     price = StringField('Price:', validators=[DataRequired()])
-    pic = StringField('Photo:', validators=[DataRequired()])
+    pic = FileField(validators=[FileRequired()]) 
 
     submit = SubmitField('Update!')
 
@@ -80,8 +90,13 @@ def index():
         body = post_form.body.data
         price = post_form.price.data
         pic = post_form.pic.data
+        filename = secure_filename(pic.filename)
+        uuid_filename = str(uuid.uuid4())
+        pic.save(os.path.join(
+            app.root_path, 'static/img', uuid_filename
+        ))
 
-        db_entry = posts(title = title, body = body, price = price, pic = pic )
+        db_entry = posts(title = title, body = body, price = price, pic = uuid_filename )
         try:
             db.session.add(db_entry)
             db.session.commit()

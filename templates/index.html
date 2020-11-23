@@ -8,7 +8,7 @@
 
 <ul id="posts">
     {%for i in posts_table%}
-    <li class="list-group-item">{{i.title}} - {{i.body}} - {{i.price}} - {{i.pic}}
+    <li class="list-group-item">{{i.title}} - {{i.body}} - {{i.price}} - <img src="static/img/{{i.pic}}" alt="user photo" width="50" height="60">
         <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
             <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
           </button>
