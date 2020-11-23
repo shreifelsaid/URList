@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+
+<h2 id="posts">Posts</h2>
+
+
+<ul id="posts">
+    {%for i in posts_table%}
+    <li class="list-group-item">{{i.title}} - {{i.body}} - {{i.price}} - {{i.pic}}
+        <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
+            <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+          </button>
+        </a>
+        <a href="/delete/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
+          <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+        </button>
+        </a>    
+    </li>
+    
+    {%endfor%}
+  </ul>
+
+  {{ wtf.quick_form(post_form) }}
+
+
+{% endblock %}
+
+
