@@ -63,7 +63,12 @@ def update(id):
         old.title = update_form.title.data
         old.body = update_form.body.data
         old.price = update_form.price.data
-        old.pic = update_form.pic.data
+        pic = update_form.pic.data
+        uuid_filename = str(uuid.uuid4())
+        pic.save(os.path.join(
+            app.root_path, 'static/img', uuid_filename
+        ))
+        old.pic = uuid_filename
         try:
             db.session.commit()
             return redirect('/')
@@ -90,7 +95,6 @@ def index():
         body = post_form.body.data
         price = post_form.price.data
         pic = post_form.pic.data
-        filename = secure_filename(pic.filename)
         uuid_filename = str(uuid.uuid4())
         pic.save(os.path.join(
             app.root_path, 'static/img', uuid_filename
