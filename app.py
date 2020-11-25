@@ -6,7 +6,9 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_login import LoginManager
 from werkzeug.utils import secure_filename
+from auth import auth as auth_blueprint
 import os
 import uuid
 
@@ -14,17 +16,23 @@ import uuid
 IMAGE_UPLOAD_FOLDER = '/static/img'
 EXTENSIONS = set(['jpg', 'jpeg'])
 
-
-
 app = Flask(__name__)
 application = app
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.register_blueprint(auth_blueprint)
+
 
 db = SQLAlchemy(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+
+class user(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
+    email = db.Column(db.String(200), unique = True)
+    username = db.Column(db.String(200), unique = True)
+    password = db.Column(db.String(100))
 
 class posts(db.Model):
     id = db.Column(db.Integer, primary_key= True)
