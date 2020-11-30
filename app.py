@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -47,15 +47,14 @@ class posts(db.Model):
 
 class PostForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
-    body = StringField('Description:', validators=[DataRequired()])
+    body = TextAreaField('Description:', validators=[DataRequired()])
     price = StringField('Price:', validators=[DataRequired()])
     pic = FileField(validators=[FileRequired()]) 
-
-    submit = SubmitField('Post!')
+    submit = SubmitField('Post')
 
 class UpdateForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
-    body = StringField('Description:', validators=[DataRequired()])
+    body = TextAreaField('Description:', validators=[DataRequired()])
     price = StringField('Price:', validators=[DataRequired()])
     pic = FileField(validators=[FileRequired()]) 
 
@@ -99,6 +98,7 @@ def index():
     title = body = price = pic = None
     post_form = PostForm()
     if post_form.validate_on_submit():
+        print("validating on submit")
         title = post_form.title.data
         body = post_form.body.data
         price = post_form.price.data
@@ -114,5 +114,7 @@ def index():
             db.session.commit()
         except:
             return "Database error"
+    else :
+        print(post_form.errors)
 
     return render_template('index.html', post_form=post_form , posts_table=posts.query.all())

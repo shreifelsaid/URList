@@ -3,74 +3,137 @@
 
 {% block page_content %}
 
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> -->
-<!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-        crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> -->
+<div class="card gedf-card border-info">
+  <div class="card-header text-white bg-info">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+              <a class="nav-link text-white bg-info" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="true" href="#images" style="font-size: large;">New Post</a>
+          </li>
+      </ul>
+  </div>
+  <div class="card-body ">
+      <div class="tab-content " id="myTabContent">
 
+          <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab" style="font-size: 150%;">
+            <form method="POST" action="/" enctype="multipart/form-data">
+            {{ post_form.csrf_token }}
+            {{ post_form.hidden_tag() }}
+              <div class="form-group">
 
-<h2 id="posts">Posts</h2>
+                <div class="form-group">
+                  <label class="text-info">Title</label>
+                  {{post_form.title (class_='form-control', rows="3", style="font-size: 100%;") }}
+                </div>
+
+                <div class="form-group">
+                  <label class="text-info">Description</label>
+                  {{post_form.body (class_='form-control', rows="3", style="font-size: 100%;") }}
+                </div>
+                <div class="form-group">
+                  <label class="text-info">Price</label>
+                  {{post_form.price (class_='form-control', rows="3" , style="font-size: 100%;") }}
+                </div>
+                <div class="custom-file">
+                  <label class="text-info">Image</label>
+                    {{ post_form.pic (style="font-size: 100%;")}}
+                </div>
+                  <div class="btn-toolbar left-content-between">
+                    <div class="btn-group" style="margin: 2%;">
+                        {{ post_form.submit(class_='btn btn-info btn-lg', style="font-size: 100%;")}}
+                    </div>
+                    
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<br>
+<h2 id="feed">Feed</h2>
 
 <ul id="posts">
-    {%for i in posts_table%}
+  {%for i in posts_table%}
 
-                <!--- \\\\\\\Post-->
-                <div id="post" class="card gedf-card">
-                  <div class="card-header">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <div class="d-flex justify-content-between align-items-center">
-                              <div class="mr-2">
-                                  <img class="rounded-circle" width="50" src="static/img/Blue.png" alt="Author's picture">
-                              </div>
-                              <div class="ml-2">
-                                  <div class="h5 m-0">Author</div>
-                                  <div class="h7 text-muted">author@u.rochester.edu</div>
-                              </div>
-                          </div>
-                      </div>
+  <!--- \\\\\\\Post-->
+  <div id="post" class="card gedf-card">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="mr-2">
+            <img class="rounded-circle" width="50" height="50" src="static/img/Blue.png" alt="Author's picture">
+          </div>
+          <div class="ml-2">
+            <div class="h5 m-0">Author</div>
+            <div class="h7 text-muted">author@u.rochester.edu</div>
+          </div>
+        </div>
+      </div>
 
-                  </div>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col">
-                        <!-- <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>demo</div> -->
-                      <a class="card-link" href="#">
-                          <h5 class="card-title" style="font-size: 250%;">{{i.title}}</h5>
-                      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <a class="card-link" href="#">
+            <h5 class="card-title" style="font-size: 250%;">{{i.title}}</h5>
+          </a>
 
-                      <p class="card-text" style="font-size: 250%;">
-                        {{i.body}}
-                        <br>
-                        {{i.price}}
-                      </p>
-                      </div>
-                      <div class="col">
-                        <div class="text-center">
-                        <img src="static/img/{{i.pic}}" alt="user photo" width="150" height="240">
-                      </div>
-                      </div>
-                    </div>               
-                  </div>
+          <p class="card-text" style="font-size: 250%;">
+            {{i.body}}
+            <br>
+            {{i.price}}
+          </p>
+        </div>
+        <div class="col">
+          <div class="text-center">
+            <img src="static/img/{{i.pic}}" alt="user photo" width="150" height="240">
+          </div>
+        </div>
+      </div>
+    </div>
 
-                  <div class="card-footer">
-                      <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
-                        <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
-                      </button>
-                    </a>
-                    <a href="/delete/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
-                      <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
-                    </button>
-                    </a>    
-                  </div>
-              </div>
-    {%endfor%}
-  </ul>
+    <div class="card-footer">
+      <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
+          <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+        </button>
+      </a>
+      <a href="/delete/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
+          <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+        </button>
+      </a>
+    </div>
+  </div>
+  {%endfor%}
+</ul>
 
-  <h2 id="newpost">Create post</h2>
+<!-- <div id="newpost">
   {{ wtf.quick_form(post_form) }}
 
+  <div class="formwrapper">
+    <form method="POST" action="/" enctype="multipart/form-data">
+      {{ post_form.csrf_token }}
+      {{ post_form.hidden_tag() }}
+      <div class="form-field">
+        {{ post_form.title.label }}
+        {{ post_form.title}}
+      </div>
+      <div class="form-field">
+        {{ post_form.body.label }}
+        {{ post_form.body }}
+      </div>
+      <div class="form-field">
+        {{ post_form.price.label }}
+        {{ post_form.price }}
+      </div>
+      <div class="form-field">
+        {{ post_form.pic.label }}
+        {{ post_form.pic }}
+      </div>
+      {{ post_form.submit }}
+    </form>
+  </div>
+
+</div> -->
 
 {% endblock %}
-
-
