@@ -4,10 +4,10 @@
 <body>
     <div class="container">
       <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto" style="font-size: 170%;">
           <div class="card card-signin my-5">
             <div class="card-body">
-              <h5 class="card-title text-center">Sign Up</h5>
+              <h5 class="card-title text-center" style="font-size: 100%;">Sign Up</h5>
 
               {% if error %}
               <h2 class="card-title text-center">{{error}}</h5>
@@ -18,27 +18,29 @@
 
                 <div class="form-label-group">
                   <label for="inputEmail">Email address</label>
-                  {{ signup_form.email }}
+                  {{ signup_form.email(class_="form-control", placeholder="e.g. 123@urlist.com", style="font-size: 80%;")}}
                 </div>
   
                 <div class="form-label-group">
                     <label for="inputName">Username</label>
-                    {{ signup_form.username }}
+                    {{ signup_form.username(class_="form-control", placeholder="e.g. alphabeta", style="font-size: 80%;") }}
                   </div>
 
                   
                 <div class="form-label-group">
                   <label for="inputPassword">Password</label>
-                  {{ signup_form.password }}
+                  {{ signup_form.password(class_="form-control", placeholder="e.g. sHJD%^4j", style="font-size: 80%;") }}
                 </div>
   
-                <div class="custom-control custom-checkbox mb-3">
-                  <input type="checkbox" class="custom-control-input" id="customCheck1">
-                  <label class="custom-control-label" for="customCheck1">Remember password</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="autoSizingCheck2" style="margin-top:2.5%">
+                  <label class="form-check-label" for="autoSizingCheck2" style="margin-left: 4%; font-size: 80%; margin-top:2%">
+                    Remember me
+                  </label>
                 </div>
-                {{ signup_form.submit }}
+                {{ signup_form.submit (class_="btn btn-lg btn-primary btn-block text-uppercase", style="font-size: 80%; margin-top:2%")}}
                 <br>
-                <p class="text-center log-or-reg-p">Already registered? <a href="/login">Sign in</a></p>
+                <p class="text-center log-or-reg-p" style="font-size: medium;">Already registered? <a href="/login">Log in</a></p>
               </form>
             </div>
           </div>

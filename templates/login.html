@@ -9,35 +9,35 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto" style="font-size: 170%;">
           <div class="card card-signin my-5">
             <div class="card-body">
-              <h5 class="card-title text-center" style="font-size: 10%;">Sign In</h5>
+              <h5 class="card-title text-center" style="font-size: 100%;">Log In</h5>
               <form method="POST" action="/login" class="form-signin">
 
                 {{ login_form.csrf_token }}
 
-                <div class="form-label-group">
+                <div class="form-label-group"  style="margin-top: 2%">
                   <label for="inputEmail">Email address</label>
-                  {{ login_form.email }}
+                  {{ login_form.email(class_="form-control", placeholder="Email address", style="font-size: 80%;")}}
 
-                  <!-- <input type="email" id="inputEmail" class="form-control" placeholder="Email address" style="font-size: 80%;" required autofocus> -->
                 </div>
   
-                <div class="form-label-group">
+                <div class="form-label-group" style="margin-top: 2%">
                   <label for="inputPassword">Password</label>
 
-                  {{ login_form.password }}
+                  {{ login_form.password(class_="form-control", placeholder="Password", style="font-size: 80%;")}}
 
-                  <!-- <input type="password" id="inputPassword" class="form-control" placeholder="Password" style="font-size: 80%;" required> -->
                 </div>
   
-                <div class="custom-control custom-checkbox mb-3">
-                  <input type="checkbox" class="custom-control-input" id="customCheck1" style="font-size: 80%;">
-                  <label class="custom-control-label" for="customCheck1">Remember password</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="autoSizingCheck2" style="margin-top:2.5%">
+                  <label class="form-check-label" for="autoSizingCheck2" style="margin-left: 4%; font-size: 80%; margin-top:2%">
+                    Remember me
+                  </label>
                 </div>
-                <!-- <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button> -->
-                {{ login_form.submit }}
+                
+                {{ login_form.submit(class_="btn btn-lg btn-primary btn-block text-uppercase", style="font-size: 80%; margin-top:2%")}}
 
                 <br>
-                <p class="text-center log-or-reg-p">Not registered? <a href="/signup">Create account</a></p>
+                <p class="text-center log-or-reg-p" style="font-size: medium;">Not registered? <a href="/signup">Create account</a></p>
               </form>
             </div>
           </div>
