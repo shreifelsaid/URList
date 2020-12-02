@@ -8,33 +8,35 @@
           <div class="card card-signin my-5">
             <div class="card-body">
               <h5 class="card-title text-center">Sign Up</h5>
-              <form class="form-signin">
+
+              {% if error %}
+              <h2 class="card-title text-center">{{error}}</h5>
+              {% endif %}
+      
+              <form method="POST" action="/signup" class="form-signin">
+                {{ signup_form.csrf_token }}
+
                 <div class="form-label-group">
                   <label for="inputEmail">Email address</label>
-                  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  {{ signup_form.email }}
                 </div>
   
                 <div class="form-label-group">
                     <label for="inputName">Username</label>
-                    <input id="inputName" class="form-control" placeholder="Username" required autofocus>
+                    {{ signup_form.username }}
                   </div>
 
                   
                 <div class="form-label-group">
                   <label for="inputPassword">Password</label>
-                  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                  {{ signup_form.password }}
                 </div>
-
-                <div class="form-label-group">
-                    <label for="repeatPassword">Repeat Password</label>
-                    <input type="password" id="repeatPassword" class="form-control" placeholder="Repeat Password" required>
-                  </div>
   
                 <div class="custom-control custom-checkbox mb-3">
                   <input type="checkbox" class="custom-control-input" id="customCheck1">
                   <label class="custom-control-label" for="customCheck1">Remember password</label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign Up</button>
+                {{ signup_form.submit }}
                 <br>
                 <p class="text-center log-or-reg-p">Already registered? <a href="/login">Sign in</a></p>
               </form>

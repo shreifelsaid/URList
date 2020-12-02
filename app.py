@@ -2,11 +2,11 @@ from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField, TextAreaField, PasswordField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
-from flask_login import LoginManager
+from flask_login import LoginManager, UserMixin , login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from auth import auth as auth_blueprint
 import os
@@ -27,8 +27,11 @@ app.register_blueprint(auth_blueprint)
 db = SQLAlchemy(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
 
-class user(db.Model):
+class user(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key= True)
     email = db.Column(db.String(200), unique = True)
     username = db.Column(db.String(200), unique = True)
@@ -59,6 +62,22 @@ class UpdateForm(FlaskForm):
     pic = FileField(validators=[FileRequired()]) 
 
     submit = SubmitField('Update!')
+
+class SignupForm(FlaskForm):
+    email = StringField('email:', validators=[DataRequired()])
+    username = StringField('Username:', validators=[DataRequired()])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    submit = SubmitField('Signup!')
+
+class LoginForm(FlaskForm):
+    email = StringField('email:', validators=[DataRequired()])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    submit = SubmitField('Login!')
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return user.query.get(int(user_id))
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
@@ -93,17 +112,11 @@ def delete(id):
     except:
         return "Delete error"
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    
-    return render_template('login.html')
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     title = body = price = pic = None
     post_form = PostForm()
     if post_form.validate_on_submit():
-        print("validating on submit")
         title = post_form.title.data
         body = post_form.body.data
         price = post_form.price.data
