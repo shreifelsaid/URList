@@ -93,6 +93,11 @@ def delete(id):
     except:
         return "Delete error"
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    
+    return render_template('login.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     title = body = price = pic = None
@@ -118,3 +123,5 @@ def index():
         print(post_form.errors)
 
     return render_template('index.html', post_form=post_form , posts_table=posts.query.all())
+
+

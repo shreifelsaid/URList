@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-
+<body>
 <div class="card gedf-card border-info">
   <div class="card-header text-white bg-info">
       <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -11,7 +11,7 @@
           </li>
       </ul>
   </div>
-  <div class="card-body ">
+  <div class="card-body">
       <div class="tab-content " id="myTabContent">
 
           <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab" style="font-size: 150%;">
@@ -38,7 +38,7 @@
                     {{ post_form.pic (style="font-size: 100%;")}}
                 </div>
                   <div class="btn-toolbar left-content-between">
-                    <div class="btn-group" style="margin: 2%;">
+                    <div class="btn-group" style="margin-top: 4%;">
                         {{ post_form.submit(class_='btn btn-info btn-lg', style="font-size: 100%;")}}
                     </div>
                     
@@ -50,14 +50,12 @@
   </div>
 </div>
 
-<br>
-<h2 id="feed">Feed</h2>
+<div id="postfeed">
+  <div class="container-fluid  text-white bg-info " style="margin-top: 2%;" ><h2 style="margin: 2%;">Feed</h2></div>
 
-<ul id="posts">
+<ul id="posts" style="padding-left: 0px;">
   {%for i in posts_table%}
-
-  <!--- \\\\\\\Post-->
-  <div id="post" class="card gedf-card">
+  <div id="post" class="card gedf-card" style="margin-left: 0px; margin-right: 0px;">
     <div class="card-header">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex justify-content-between align-items-center">
@@ -75,30 +73,30 @@
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <a class="card-link" href="#">
-            <h5 class="card-title" style="font-size: 250%;">{{i.title}}</h5>
-          </a>
+          
+            <h5 class="card-title text-info" style="font-size: 250%;">{{i.title}}</h5>
+      
 
           <p class="card-text" style="font-size: 250%;">
             {{i.body}}
             <br>
-            {{i.price}}
+            Price:{{i.price}}
           </p>
         </div>
         <div class="col">
           <div class="text-center">
-            <img src="static/img/{{i.pic}}" alt="user photo" width="150" height="240">
+            <img src="static/img/{{i.pic}}" alt="user photo" class="superbox-img" style="max-width: 50%; width: 100%;">
           </div>
         </div>
       </div>
     </div>
 
     <div class="card-footer">
-      <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
+      <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
           <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
         </button>
       </a>
-      <a href="/delete/{{i.id}}"><button type="button" class="btn btn-default pull-right" aria-label="edit">
+      <a href="/delete/{{i.id}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
           <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
         </button>
       </a>
@@ -106,7 +104,8 @@
   </div>
   {%endfor%}
 </ul>
-
+</div>
+</body>
 <!-- <div id="newpost">
   {{ wtf.quick_form(post_form) }}
 
