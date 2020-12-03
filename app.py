@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect
+from flask.helpers import url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
@@ -44,10 +45,6 @@ class posts(db.Model):
     price = db.Column(db.String(500), nullable = False)
     pic = db.Column(db.String(500), nullable = False)
 
-    def __repr__(self):
-        return self
-
-
 class PostForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
     body = TextAreaField('Description:', validators=[DataRequired()])
@@ -82,9 +79,10 @@ def load_user(user_id):
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     old_post = posts.query.get(id)
-    update_form = UpdateForm()
-    # update_form.user_ingredient.data = old_ingredient
+    update_form = UpdateForm(title=old_post.title, body=old_post.body,price=old_post.price,pic=old_post.pic)
+        
     if update_form.validate_on_submit():
+
         old = posts.query.get_or_404(id)
         old.title = update_form.title.data
         old.body = update_form.body.data
@@ -95,12 +93,17 @@ def update(id):
             app.root_path, 'static/img', uuid_filename
         ))
         old.pic = uuid_filename
+        print(update_form.title.data)
+        print(update_form.body.data)
+        print(update_form.price.data)
+        print(uuid_filename)
+
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect("/")
         except:
             return "Update error"
-    return render_template('update.html', update_form=update_form)
+    return render_template('update.html', update_form=update_form )
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
