@@ -4,6 +4,40 @@
 
 {% block page_content %}
 
-{{ wtf.quick_form(update_form) }}
+<!-- {{ wtf.quick_form(update_form) }} -->
+
+
+          <form method="POST" enctype="multipart/form-data">
+          {{ update_form.csrf_token }}
+          {{ update_form.hidden_tag() }}
+            <div class="form-group">
+
+              <div class="form-group">
+                <label class="text-info">Title</label>
+                {{update_form.title (class_='form-control', rows="3", style="font-size: 100%;") }}
+              </div>
+
+              <div class="form-group">
+                <label class="text-info">Description</label>
+                {{update_form.body (class_='form-control', rows="3", style="font-size: 100%;") }}
+              </div>
+              <div class="form-group">
+                <label class="text-info">Price</label>
+                {{update_form.price (class_='form-control', rows="3" , style="font-size: 100%;") }}
+              </div>
+              <div class="custom-file">
+                <label class="text-info">Image</label>
+                  {{ update_form.pic (style="font-size: 100%;")}}
+              </div>
+                <div class="btn-toolbar left-content-between">
+                  <div class="btn-group" style="margin-top: 4%;">
+                      {{ update_form.submit(class_='btn btn-info btn-lg', style="font-size: 100%;")}}
+                  </div>
+                  
+              </div>
+            </div>
+          </form>
+        
+
 
 {% endblock %}
