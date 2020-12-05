@@ -7,3 +7,4 @@ https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 Back-end
 https://github.com/toddbirchard/flasklogin-tutorial
+https://www.youtube.com/watch?v=K0vSCCAM2ss&t=689s

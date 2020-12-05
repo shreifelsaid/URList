@@ -1,17 +1,14 @@
 from flask import Flask, render_template, redirect
 from flask.helpers import url_for
+from forms import *
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, SubmitField, TextAreaField, PasswordField
-from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
-from flask_login import LoginManager, UserMixin , login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from auth import auth as auth_blueprint
 import os
 import uuid
+
 
 
 IMAGE_UPLOAD_FOLDER = '/static/img'
@@ -26,50 +23,14 @@ app.register_blueprint(auth_blueprint)
 
 
 db = SQLAlchemy(app)
+from models import *
+
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
-class user(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key= True)
-    email = db.Column(db.String(200), unique = True)
-    username = db.Column(db.String(200), unique = True)
-    password = db.Column(db.String(100))
-
-class posts(db.Model):
-    id = db.Column(db.Integer, primary_key= True)
-    title = db.Column(db.String(500), nullable = False)
-    body = db.Column(db.String(500), nullable = False)
-    price = db.Column(db.String(500), nullable = False)
-    pic = db.Column(db.String(500), nullable = False)
-
-class PostForm(FlaskForm):
-    title = StringField('Title:', validators=[DataRequired()])
-    body = TextAreaField('Description:', validators=[DataRequired()])
-    price = StringField('Price:', validators=[DataRequired()])
-    pic = FileField(validators=[FileRequired()]) 
-    submit = SubmitField('Post')
-
-class UpdateForm(FlaskForm):
-    title = StringField('Title:', validators=[DataRequired()])
-    body = TextAreaField('Description:', validators=[DataRequired()])
-    price = StringField('Price:', validators=[DataRequired()])
-    pic = FileField(validators=[FileRequired()]) 
-
-    submit = SubmitField('Update!')
-
-class SignupForm(FlaskForm):
-    email = StringField('email:', validators=[DataRequired()])
-    username = StringField('Username:', validators=[DataRequired()])
-    password = PasswordField('Password:', validators=[DataRequired()])
-    submit = SubmitField('Signup!')
-
-class LoginForm(FlaskForm):
-    email = StringField('email:', validators=[DataRequired()])
-    password = PasswordField('Password:', validators=[DataRequired()])
-    submit = SubmitField('Login!')
 
 
 @login_manager.user_loader

@@ -44,11 +44,18 @@ def signup_post():
         email = signup_form.email.data
         username = signup_form.username.data
         password = signup_form.password.data
+        user = app.user.query.filter((email == email) | (username == username)).first()
+        if user :
+            flash("Username or email is already in use, log in!")
+            return redirect(url_for('auth.login'))
         db_entry = app.user(email=email, username=username, password=generate_password_hash(password, method='sha256'))
         try:
             app.db.session.add(db_entry)
             app.db.session.commit()
         except:
             return "Database error"
-    return redirect(url_for('auth.login'))
-    
+    return render_template('welcome.html', username=username)
+
+# @auth.route('/welcome')
+# def welcome():
+#     return  render_template('welcome.html')
