@@ -1,5 +1,8 @@
+from flask.helpers import flash
 import app
 from flask import Blueprint, render_template, redirect, url_for
+from werkzeug.security import check_password_hash, generate_password_hash
+
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
@@ -18,16 +21,16 @@ def signup():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    email = password  = None
+    email = password = username = None
     login_form = app.LoginForm()
     if login_form.validate_on_submit():
         print("validated succcessfully")
         email = login_form.email.data
+        username = login_form.email.data
         password = login_form.password.data
-        user = app.user.query.filter_by(email=email).first()
-        #TODO improve security
-        if not user or not user.password==password:
-            print("wrong password or username")
+        user = app.user.query.filter((email == email) | (username == username)).first()
+        if not user or not check_password_hash(user.password, password):
+            flash("wrong password or username")
             return redirect(url_for('auth.login'))
         app.login_user(user)
     return redirect(url_for('index')) 
@@ -41,7 +44,7 @@ def signup_post():
         email = signup_form.email.data
         username = signup_form.username.data
         password = signup_form.password.data
-        db_entry = app.user(email=email, username=username, password=password)
+        db_entry = app.user(email=email, username=username, password=generate_password_hash(password, method='sha256'))
         try:
             app.db.session.add(db_entry)
             app.db.session.commit()
