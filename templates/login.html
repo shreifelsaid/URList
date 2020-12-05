@@ -3,6 +3,7 @@
 
 {% block page_content %}
 
+
 <body>
     <div class="container">
       <div class="row">
@@ -13,6 +14,13 @@
               <form method="POST" action="/login" class="form-signin">
 
                 {{ login_form.csrf_token }}
+
+                {% for message in get_flashed_messages() %}
+                  <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                  </div>
+                {% endfor %}
 
                 <div class="form-label-group"  style="margin-top: 2%">
                   <label for="inputEmail">Email address</label>
