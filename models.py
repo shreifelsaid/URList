@@ -1,4 +1,4 @@
-from flask_login import LoginManager, UserMixin , login_user, logout_user, login_required
+from flask_login import UserMixin
 from app import db
 
 class user(UserMixin, db.Model):
@@ -13,5 +13,6 @@ class posts(db.Model):
     body = db.Column(db.String(500), nullable = False)
     price = db.Column(db.String(500), nullable = False)
     pic = db.Column(db.String(500), nullable = False)
-    # author_username = db.Column(db.String(500), nullable = False)
-    # author_email = db.Column(db.String(500), nullable = False)
+    author_username = db.Column(db.String(500), nullable = False)
+    author_email = db.Column(db.String(500), nullable = False)
+

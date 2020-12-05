@@ -4,8 +4,8 @@ from forms import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_login import LoginManager, current_user, login_required
 from werkzeug.utils import secure_filename
-from auth import auth as auth_blueprint
 import os
 import uuid
 
@@ -19,11 +19,12 @@ application = app
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.register_blueprint(auth_blueprint)
 
 
 db = SQLAlchemy(app)
 from models import *
+from auth import auth as auth_blueprint
+app.register_blueprint(auth_blueprint)
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
@@ -77,6 +78,7 @@ def delete(id):
         return "Delete error"
 
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     title = body = price = pic = None
     post_form = PostForm()
@@ -89,8 +91,8 @@ def index():
         pic.save(os.path.join(
             app.root_path, 'static/img', uuid_filename
         ))
-
-        db_entry = posts(title = title, body = body, price = price, pic = uuid_filename )
+        
+        db_entry = posts(title = title, body = body, price = price, pic = uuid_filename, author_username=current_user.username, author_email=current_user.email)
         try:
             db.session.add(db_entry)
             db.session.commit()
@@ -99,6 +101,6 @@ def index():
     else :
         print(post_form.errors)
 
-    return render_template('index.html', post_form=post_form , posts_table=posts.query.all())
+    return render_template('index.html', post_form=post_form , posts_table=posts.query.all(), current_user=current_user)
 
 

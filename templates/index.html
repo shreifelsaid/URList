@@ -63,8 +63,8 @@
             <img class="rounded-circle" width="50" height="50" src="static/img/Blue.png" alt="Author's picture">
           </div>
           <div class="ml-2">
-            <div class="h5 m-0">Author</div>
-            <div class="h7 text-muted">author@u.rochester.edu</div>
+            <div class="h5 m-0">{{i.author_username}}</div>
+            <div class="h7 text-muted">{{i.author_email}}</div>
           </div>
         </div>
       </div>
@@ -90,8 +90,9 @@
         </div>
       </div>
     </div>
-
+    
     <div class="card-footer">
+      {%if i.author_email == current_user.email%}
       <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
           <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
         </button>
@@ -100,6 +101,8 @@
           <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
         </button>
       </a>
+      {%endif%}
+
     </div>
   </div>
   {%endfor%}
