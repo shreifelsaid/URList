@@ -75,9 +75,10 @@ def signup_post():
             return "Database error"
     return render_template('welcome.html', username=username)
 
-@auth.route('/profile')
+@auth.route('/profile',methods=['GET','POST'])
 @login_required
 def profile():
+
     password_reset_form = ResetPasswordForm()
     username_reset_form = ResetUsernameForm()
 
