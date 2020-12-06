@@ -40,6 +40,18 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password:', validators=[DataRequired()])
     submit = SubmitField('Login!')
 
+class ForgotLoginForm(FlaskForm):
+    email = StringField('Username or Email:', validators=[DataRequired()])
+    security_question = SelectField(u'Security question:', choices=[
+    (1, 'What was your childhood nickname?'), 
+    (2, 'What is the name of your favorite childhood friend?'), 
+    (3, 'What was the last name of your third grade teacher?'), 
+    (4, 'In what city or town was your first job?'), 
+    (5, 'What was the name of your first stuffed animal?'), 
+    (6, 'What is the name of a college you applied to but didn\'t attend?')])
+    security_answer = StringField('Answer:', validators=[DataRequired()])
+    submit = SubmitField('Login!')
+
 class ResetPasswordForm(FlaskForm):
     old_password = PasswordField('Password:', validators=[DataRequired()])
     new_password = PasswordField('Password:', validators=[DataRequired()])
