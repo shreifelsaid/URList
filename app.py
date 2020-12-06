@@ -101,6 +101,6 @@ def index():
     else :
         print(post_form.errors)
 
-    return render_template('index.html', post_form=post_form , posts_table=posts.query.all(), current_user=current_user)
+    return render_template('index.html', post_form=post_form , posts_table=posts.query.order_by(posts.id.desc()).all(), current_user=current_user)
 
 
