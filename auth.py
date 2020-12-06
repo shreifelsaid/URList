@@ -2,7 +2,7 @@ from flask.helpers import flash
 from werkzeug import security
 from flask_login import  login_user, logout_user, login_required, current_user
 from models import user, db
-from forms import LoginForm, ResetPasswordForm, SignupForm
+from forms import LoginForm, ResetPasswordForm, ResetUsernameForm, SignupForm
 from flask import Blueprint, render_template, redirect, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -79,6 +79,8 @@ def signup_post():
 @login_required
 def profile():
     password_reset_form = ResetPasswordForm()
+    username_reset_form = ResetUsernameForm()
+
     existing_user = user.query.filter_by(email = current_user.email).first()
     security_question_dict = {
     1 : 'What was your childhood nickname?',
@@ -106,4 +108,26 @@ def profile():
             return redirect(url_for('index'))
         except:
             return "Update error"
-    return  render_template('profile.html',current_user=current_user, password_reset_form=password_reset_form,security_question=security_question)
+
+    if username_reset_form.validate_on_submit():
+
+        security_answer = username_reset_form.security_answer.data
+        old_password = username_reset_form.old_password.data
+        new_username = username_reset_form.new_username
+
+        if not check_password_hash(existing_password, old_password) or not check_password_hash(existing_answer, security_answer):
+            flash("wrong password or security answer")
+            return redirect(url_for('auth.profile'))
+        user_already_exists = user.query.filter_by(username = new_username).first()
+        if user_already_exists:
+            flash("username is taken")
+            return redirect(url_for('auth.profile'))
+
+        existing_user.username = new_username
+        try:
+            db.session.commit()
+            return redirect(url_for('index'))
+        except:
+            return "Update error"
+
+    return  render_template('profile.html',current_user=current_user, password_reset_form=password_reset_form,username_reset_form=username_reset_form,security_question=security_question)
