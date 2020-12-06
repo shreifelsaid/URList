@@ -31,6 +31,16 @@
                   <label for="inputPassword">Password</label>
                   {{ signup_form.password(class_="form-control", placeholder="e.g. sHJD%^4j", style="font-size: 80%;") }}
                 </div>
+
+                <div class="form-label-group">
+                  <label for="inputSecurityQuestion">Security question</label>
+                  {{ signup_form.security_question(class_="form-control", style="font-size: 80%;") }}
+                </div>
+
+                <div class="form-label-group">
+                  <label for="inputAnswer">Answer</label>
+                  {{ signup_form.security_answer(class_="form-control", placeholder="e.g. Tuta",  style="font-size: 80%;") }}
+                </div>
   
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="autoSizingCheck2" style="margin-top:2.5%">
@@ -50,3 +60,4 @@
   </body>
 
 {% endblock %}
+
