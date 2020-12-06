@@ -24,7 +24,7 @@
           </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane active" id= "username" aria-labelledby="user-tab" role="tabpanel">
-            <form method="POST" action="/" enctype="multipart/form-data">      
+            <form method="POST" action="/profile" enctype="multipart/form-data">      
               <div class="row">
                 <div class="col">
                     <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Username</b></div>
@@ -46,9 +46,9 @@
             </form>
           </div>
             <div class="tab-pane" id= "password" aria-labelledby="password-tab" role="tabpanel">
-                <form method="POST" action="/" enctype="multipart/form-data">
+                <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">
                     {{ password_reset_form.csrf_token }}
-                    {{ password_reset_form.hidden_tag() }}
+                    {{ password_reset_form.hidden_tag()}}
               <div class="row">
                 <div class="col-12 col-sm-6 mb-3">
                   <div class="mb-2" style="font-size: large; margin-top: 5%;"><b>Change Password</b></div>
@@ -56,8 +56,7 @@
                     <div class="col">
                       <div class="form-group">
                         <label>Current Password</label>
-                        <!-- <input class="form-control" type="password" placeholder="••••••"> -->
-                        {{password_reset_form.old_password () }}
+                        {{password_reset_form.old_password (class_='form-control', rows="3", style="font-size: 100%;") }}
                       </div>
                     </div>
                   </div>
@@ -65,23 +64,23 @@
                     <div class="col">
                       <div class="form-group">
                         <label>New Password</label>
-                        <!-- <input class="form-control" type="password" placeholder="••••••"> -->
-                        {{password_reset_form.new_password () }}
+                        {{password_reset_form.new_password (class_='form-control', rows="3", style="font-size: 100%;") }}
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col">
                       <div class="form-group">
-                        <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
-                        <input class="form-control" type="password" placeholder="••••••"></div>
+                        <label>Security question: <span class="d-none d-xl-inline">{{security_question}}</span></label>
+                        {{password_reset_form.security_answer (class_='form-control', rows="3", style="font-size: 100%;") }}
                     </div>
                   </div>
                 </div>
               </div>
+              </div>
               <div class="row">
-                <div class="col d-flex justify-content-end">
-                  <button class="btn btn-info btn-large" type="submit">Save Changes</button>
+                <div class="col d-flex justify-content">
+                  <button class="btn btn-info btn-lg" type="submit">Save Changes</button>
                 </div>
               </div>
             </form>
