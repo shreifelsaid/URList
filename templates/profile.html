@@ -24,22 +24,40 @@
           </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane active" id= "username" aria-labelledby="user-tab" role="tabpanel">
-            <form method="POST" action="/profile" enctype="multipart/form-data">      
+            <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">   
+              {{ username_reset_form.csrf_token }}
+              {{ username_reset_form.hidden_tag()}}   
               <div class="row">
                 <div class="col">
                     <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Username</b></div>
                   <div class="row">
                     <div class="col">
                       <div class="form-group" style="font-size: small;">
-                        <label>Current Username</label>
-                        <input class="form-control" type="text" name="username" placeholder="user">
+                        <label>New Username</label>
+                        {{username_reset_form.new_username (class_='form-control', rows="3", style="font-size: 100%;") }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group" style="font-size: small;">
+                        <label>Password</label>
+                        {{username_reset_form.old_password (class_='form-control', rows="3", style="font-size: 100%;") }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group" style="font-size: small;">
+                        <label>Security Questions: <span class="d-none d-xl-inline">{{security_question}}</span></label>
+                        {{username_reset_form.security_answer (class_='form-control', rows="3", style="font-size: 100%;") }}
                       </div>
                     </div>
                   </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col d-flex justify-content-end">
+                <div class="col d-flex justify-content">
                   <button class="btn btn-info btn-lg" type="submit">Save Changes</button>
                 </div>
               </div>
@@ -50,11 +68,11 @@
                     {{ password_reset_form.csrf_token }}
                     {{ password_reset_form.hidden_tag()}}
               <div class="row">
-                <div class="col-12 col-sm-6 mb-3">
-                  <div class="mb-2" style="font-size: large; margin-top: 5%;"><b>Change Password</b></div>
+                <div class="col">
+                  <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Password</b></div>
                   <div class="row">
                     <div class="col">
-                      <div class="form-group">
+                      <div class="form-group" style="font-size: small;">
                         <label>Current Password</label>
                         {{password_reset_form.old_password (class_='form-control', rows="3", style="font-size: 100%;") }}
                       </div>
@@ -62,7 +80,7 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <div class="form-group">
+                      <div class="form-group" style="font-size: small;">
                         <label>New Password</label>
                         {{password_reset_form.new_password (class_='form-control', rows="3", style="font-size: 100%;") }}
                       </div>
@@ -70,7 +88,7 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <div class="form-group">
+                      <div class="form-group" style="font-size: small;">
                         <label>Security question: <span class="d-none d-xl-inline">{{security_question}}</span></label>
                         {{password_reset_form.security_answer (class_='form-control', rows="3", style="font-size: 100%;") }}
                     </div>
