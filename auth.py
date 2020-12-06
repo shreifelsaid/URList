@@ -79,7 +79,7 @@ def signup_post():
 @login_required
 def profile():
     password_reset_form = ResetPasswordForm()
-    existing_user = user.query.filter(email = current_user.email).first()
+    existing_user = user.query.filter_by(email = current_user.email).first()
     security_question_dict = {
     1 : 'What was your childhood nickname?',
     2 : 'What is the name of your favorite childhood friend?',
@@ -99,7 +99,7 @@ def profile():
         if not check_password_hash(existing_password, old_password) or not check_password_hash(existing_answer, security_answer):
             flash("wrong password or security answer")
             return redirect(url_for('auth.profile'))
-            
+
         existing_user.password = generate_password_hash(new_password, method='sha256')
         try:
             db.session.commit()
