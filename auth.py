@@ -1,5 +1,5 @@
 from flask.helpers import flash
-from flask_login import  login_user, logout_user, login_required
+from flask_login import  login_user, logout_user, login_required, current_user
 from models import user, db
 from forms import LoginForm, SignupForm
 from flask import Blueprint, render_template, redirect, url_for
@@ -69,3 +69,7 @@ def signup_post():
             return "Database error"
     return render_template('welcome.html', username=username)
 
+@auth.route('/profile')
+@login_required
+def profile():
+    return  render_template('profile.html',current_user=current_user)
