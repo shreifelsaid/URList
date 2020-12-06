@@ -2,16 +2,30 @@ from flask.helpers import flash
 from werkzeug import security
 from flask_login import  login_user, logout_user, login_required, current_user
 from models import user, db
-from forms import LoginForm, ResetPasswordForm, ResetUsernameForm, SignupForm
+from forms import LoginForm, ResetPasswordForm, ResetUsernameForm, SignupForm, ForgotLoginForm
 from flask import Blueprint, render_template, redirect, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 auth = Blueprint('auth', __name__)
 
+security_question_dict = {
+    1 : 'What was your childhood nickname?',
+    2 : 'What is the name of your favorite childhood friend?',
+    3 : 'What was the last name of your third grade teacher?',
+    4 : 'In what city or town was your first job?',
+    5 : 'What was the name of your first stuffed animal?',
+    6 : 'What is the name of a college you applied to but didn\'t attend?',
+    }
+
 @auth.route('/login')
 def login():
     login_form = LoginForm()
     return  render_template('login.html',login_form=login_form)
+
+@auth.route('/forgot_login')
+def forgot_login():
+    forgot_login_form = ForgotLoginForm()
+    return  render_template('forgot_login.html',forgot_login_form=forgot_login_form)
 
 @auth.route('/logout')
 @login_required
@@ -36,6 +50,23 @@ def login_post():
         existing_user = user.query.filter((email == user.email) | (username == user.username)).first()
         if not existing_user or not check_password_hash(existing_user.password, password):
             flash("wrong password or username")
+            return redirect(url_for('auth.login'))
+        login_user(existing_user)
+    return redirect(url_for('index')) 
+
+@auth.route('/forgot_login', methods=['POST'])
+def forgot_login_post():
+    email = security_answer = username = None
+    forgot_login_form = ForgotLoginForm()
+    if forgot_login_form.validate_on_submit():
+        print("validated succcessfully")
+        email = forgot_login_form.email.data
+        username = forgot_login_form.email.data
+        security_answer = forgot_login_form.security_answer.data
+        security_question = forgot_login_form.security_question.data
+        existing_user = user.query.filter((email == user.email) | (username == user.username)).first()
+        if not existing_user or not check_password_hash(existing_user.security_answer, security_answer) or not existing_user.security_question == security_question:
+            flash("wrong security question/answer combination or username")
             return redirect(url_for('auth.login'))
         login_user(existing_user)
     return redirect(url_for('index')) 
@@ -83,14 +114,6 @@ def profile():
     username_reset_form = ResetUsernameForm()
 
     existing_user = user.query.filter_by(email = current_user.email).first()
-    security_question_dict = {
-    1 : 'What was your childhood nickname?',
-    2 : 'What is the name of your favorite childhood friend?',
-    3 : 'What was the last name of your third grade teacher?',
-    4 : 'In what city or town was your first job?',
-    5 : 'What was the name of your first stuffed animal?',
-    6 : 'What is the name of a college you applied to but didn\'t attend?',
-    }
     security_question = security_question_dict[existing_user.security_question]
     existing_answer = existing_user.security_answer
     existing_password = existing_user.password
