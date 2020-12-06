@@ -62,7 +62,7 @@ def update(id):
 
         try:
             db.session.commit()
-            return redirect("/")
+            return redirect(url_for('index'))
         except:
             return "Update error"
     return render_template('update.html', update_form=update_form )
@@ -73,7 +73,7 @@ def delete(id):
     try:
         db.session.delete(deleted_post)
         db.session.commit()
-        return redirect('/')
+        return redirect(url_for('index'))
     except:
         return "Delete error"
 
