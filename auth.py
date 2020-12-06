@@ -97,12 +97,12 @@ def profile():
     if password_reset_form.validate_on_submit():
         security_answer = password_reset_form.security_answer.data
         old_password = password_reset_form.old_password.data
-        new_password = password_reset_form.new_password
+        new_password = password_reset_form.new_password.data
 
         if not check_password_hash(existing_password, old_password) or not check_password_hash(existing_answer, security_answer):
             flash("wrong password or security answer")
             return redirect(url_for('auth.profile'))
-
+        print(new_password)
         existing_user.password = generate_password_hash(new_password, method='sha256')
         try:
             db.session.commit()
@@ -114,7 +114,7 @@ def profile():
 
         security_answer = username_reset_form.security_answer.data
         old_password = username_reset_form.old_password.data
-        new_username = username_reset_form.new_username
+        new_username = username_reset_form.new_username.data
 
         if not check_password_hash(existing_password, old_password) or not check_password_hash(existing_answer, security_answer):
             flash("wrong password or security answer")
