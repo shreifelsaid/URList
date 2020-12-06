@@ -85,7 +85,7 @@
         </div>
         <div class="col">
           <div class="text-center">
-            <img src="static/img/{{i.pic}}" alt="user photo" class="superbox-img" style="max-width: 50%; width: 100%;">
+            <img src="{{url_for('static', filename='/img/'+i.pic)}}" alt="user photo" class="superbox-img" style="max-width: 50%; width: 100%;">
           </div>
         </div>
       </div>
@@ -93,11 +93,13 @@
     
     <div class="card-footer">
       {%if i.author_email == current_user.email%}
-      <a href="/update/{{i.id}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
+      {% set update_url= url_for('update', id=i.id)%}
+      <a href={{update_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
           <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
         </button>
       </a>
-      <a href="/delete/{{i.id}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
+      {% set delete_url= url_for('delete', id=i.id)%}
+      <a href={{delete_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
           <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
         </button>
       </a>
@@ -109,33 +111,5 @@
 </ul>
 </div>
 </body>
-<!-- <div id="newpost">
-  {{ wtf.quick_form(post_form) }}
-
-  <div class="formwrapper">
-    <form method="POST" action="/" enctype="multipart/form-data">
-      {{ post_form.csrf_token }}
-      {{ post_form.hidden_tag() }}
-      <div class="form-field">
-        {{ post_form.title.label }}
-        {{ post_form.title}}
-      </div>
-      <div class="form-field">
-        {{ post_form.body.label }}
-        {{ post_form.body }}
-      </div>
-      <div class="form-field">
-        {{ post_form.price.label }}
-        {{ post_form.price }}
-      </div>
-      <div class="form-field">
-        {{ post_form.pic.label }}
-        {{ post_form.pic }}
-      </div>
-      {{ post_form.submit }}
-    </form>
-  </div>
-
-</div> -->
 
 {% endblock %}
