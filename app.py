@@ -8,7 +8,7 @@ from flask_login import LoginManager, current_user, login_required
 from werkzeug.utils import secure_filename
 import os
 import uuid
-
+from models import db,user,posts
 
 
 IMAGE_UPLOAD_FOLDER = '/static/img'
@@ -19,10 +19,9 @@ application = app
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
 
-db = SQLAlchemy(app)
-from models import *
 from auth import auth as auth_blueprint
 app.register_blueprint(auth_blueprint)
 
@@ -31,8 +30,8 @@ moment = Moment(app)
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
-
-
+with app.app_context():
+    db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
