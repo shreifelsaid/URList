@@ -103,7 +103,7 @@ def profile():
         existing_user.password = generate_password_hash(new_password, method='sha256')
         try:
             db.session.commit()
-            return redirect("/")
+            return redirect(url_for('index'))
         except:
             return "Update error"
     return  render_template('profile.html',current_user=current_user, password_reset_form=password_reset_form,security_question=security_question)
