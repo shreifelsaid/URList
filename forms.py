@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField
 from wtforms.validators import DataRequired
+from wtforms.fields.html5 import EmailField
 
 class PostForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
@@ -19,13 +20,13 @@ class UpdateForm(FlaskForm):
     submit = SubmitField('Update!')
 
 class SignupForm(FlaskForm):
-    email = StringField('email:', validators=[DataRequired()])
+    email = EmailField('email:', validators=[DataRequired()])
     username = StringField('Username:', validators=[DataRequired()])
     password = PasswordField('Password:', validators=[DataRequired()])
     submit = SubmitField('Signup!')
 
 class LoginForm(FlaskForm):
-    email = StringField('email:', validators=[DataRequired()])
+    email = StringField('Username or Email:', validators=[DataRequired()])
     password = PasswordField('Password:', validators=[DataRequired()])
     submit = SubmitField('Login!')
 
