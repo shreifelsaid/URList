@@ -1,8 +1,11 @@
+from werkzeug import security
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, SubmitField, TextAreaField, PasswordField
+from wtforms import StringField, SubmitField, TextAreaField, PasswordField, SelectField
 from wtforms.validators import DataRequired
 from wtforms.fields.html5 import EmailField
+
+#TODO : make sure string fields can only take as much chars as db can handle
 
 class PostForm(FlaskForm):
     title = StringField('Title:', validators=[DataRequired()])
@@ -16,13 +19,20 @@ class UpdateForm(FlaskForm):
     body = TextAreaField('Description:', validators=[DataRequired()])
     price = StringField('Price:', validators=[DataRequired()])
     pic = FileField(validators=[FileRequired()]) 
-
     submit = SubmitField('Update!')
 
 class SignupForm(FlaskForm):
     email = EmailField('email:', validators=[DataRequired()])
     username = StringField('Username:', validators=[DataRequired()])
     password = PasswordField('Password:', validators=[DataRequired()])
+    security_question = SelectField(u'Security question:', choices=[
+    (1, 'What was your childhood nickname?'), 
+    (2, 'What is the name of your favorite childhood friend?'), 
+    (3, 'What was the last name of your third grade teacher?'), 
+    (4, 'In what city or town was your first job?'), 
+    (5, 'What was the name of your first stuffed animal?'), 
+    (6, 'What is the name of a college you applied to but didn\'t attend?')])
+    security_answer = StringField('Answer:', validators=[DataRequired()])
     submit = SubmitField('Signup!')
 
 class LoginForm(FlaskForm):
