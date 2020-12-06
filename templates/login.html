@@ -11,7 +11,7 @@
           <div class="card card-signin my-5">
             <div class="card-body">
               <h5 class="card-title text-center" style="font-size: 100%;">Log In</h5>
-              <form method="POST" action="/login" class="form-signin">
+              <form method="POST" action="{{url_for('auth.login')}}" class="form-signin">
 
                 {{ login_form.csrf_token }}
 

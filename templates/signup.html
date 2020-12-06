@@ -13,7 +13,7 @@
               <h2 class="card-title text-center">{{error}}</h5>
               {% endif %}
       
-              <form method="POST" action="/signup" class="form-signin">
+              <form method="POST" action="{{url_for('auth.signup')}}" class="form-signin">
                 {{ signup_form.csrf_token }}
 
                 <div class="form-label-group">
