@@ -65,11 +65,18 @@ def forgot_login_post():
         security_answer = forgot_login_form.security_answer.data
         security_question = forgot_login_form.security_question.data
         existing_user = user.query.filter((email == user.email) | (username == user.username)).first()
-        if not existing_user or not check_password_hash(existing_user.security_answer, security_answer) or not existing_user.security_question == security_question:
+        print("security question :" , type(security_question))
+        print("existing security question :" , type(existing_user.security_question))
+        print("security answes match :", check_password_hash(existing_user.security_answer, security_answer))
+        print("existing user", existing_user)
+        print("1- ", not existing_user)
+        print("2- ", not check_password_hash(existing_user.security_answer, security_answer) )
+        print("3- ", not existing_user.security_question == security_question)
+        if not existing_user or not check_password_hash(existing_user.security_answer, security_answer) or not existing_user.security_question == int(security_question):
             flash("wrong security question/answer combination or username")
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.forgot_login'))
         login_user(existing_user)
-    return redirect(url_for('index')) 
+    return redirect(url_for('auth.profile')) 
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
