@@ -21,3 +21,7 @@ class posts(db.Model):
     author_username = db.Column(db.String(500), nullable = False)
     author_email = db.Column(db.String(500), nullable = False)
 
+class items(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
+    post_id = db.Column(db.Integer)
+    email = db.Column(db.String(500))
