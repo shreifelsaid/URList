@@ -53,7 +53,6 @@ class ForgotLoginForm(FlaskForm):
     submit = SubmitField('Login!')
 
 class ResetPasswordForm(FlaskForm):
-    old_password = PasswordField('Password:', validators=[DataRequired()])
     new_password = PasswordField('Password:', validators=[DataRequired()])
     security_answer = StringField('Answer:', validators=[DataRequired()])
     submit = SubmitField('Login!')
