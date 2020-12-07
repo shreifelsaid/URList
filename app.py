@@ -102,7 +102,14 @@ def cart_list():
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
+
     deleted_post = posts.query.get_or_404(id)
+    in_cart = items.query.filter_by(post_id=id).first()
+    if in_cart:
+        try:
+            db.session.delete(in_cart)
+        except:
+            return "Delete error"
     try:
         db.session.delete(deleted_post)
         db.session.commit()
