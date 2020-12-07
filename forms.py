@@ -60,6 +60,6 @@ class ResetPasswordForm(FlaskForm):
 
 class ResetUsernameForm(FlaskForm):
     old_password = PasswordField('Password:', validators=[DataRequired()])
-    new_username = PasswordField('Password:', validators=[DataRequired()])
+    new_username = StringField('Password:', validators=[DataRequired()])
     security_answer = StringField('Answer:', validators=[DataRequired()])
     submit = SubmitField('Login!')
