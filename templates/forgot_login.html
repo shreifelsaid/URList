@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+ 
+{% block page_content %}
+ 
+ 
+<body>
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto" style="font-size: 170%;">
+            <div class="card card-signin my-5">
+              <div class="card-body">
+                <h5 class="card-title text-center" style="font-size: 100%;">Forgot Password</h5>
+                <form method="POST" action="{{url_for('auth.forgot_login')}}" class="form-signin">
+  
+                  {{ forgot_login_form.csrf_token }}
+  
+                  {% for message in get_flashed_messages() %}
+                    <div class="alert alert-warning">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+  
+                  <div class="form-label-group"  style="margin-top: 2%">
+                    <label>Email address</label>
+                    {{ forgot_login_form.email(class_="form-control", style="font-size: 80%;")}}
+  
+                  </div>
+    
+                  <div class="form-label-group" style="margin-top: 2%">
+                    <label>Password</label>
+  
+                    {{ forgot_login_form.security_question(class_="form-control", style="font-size: 80%;")}}
+  
+                  </div>
+    
+                  <div class="form-label-group"  style="margin-top: 2%">
+                    <label>Answer</label>
+                    {{ forgot_login_form.security_answer(class_="form-control", style="font-size: 80%;")}}
+                  </div>
+ 
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="autoSizingCheck2" style="margin-top:2.5%">
+                    <label class="form-check-label" for="autoSizingCheck2" style="margin-left: 4%; font-size: 80%; margin-top:2%">
+                      Remember me
+                    </label>
+                  </div>
+ 
+                  
+                  {{ forgot_login_form.submit(class_="btn btn-lg btn-info btn-block text-uppercase", style="font-size: 80%; margin-top:2%")}}
+  
+                  <br>
+                  <p class="text-center log-or-reg-p" style="font-size: medium;">Not registered? <a href="{{url_for('auth.signup')}}">Create account</a></p>
+                  <p class="text-center log-or-reg-p" style="font-size: medium;">Already know your credentials? <a href="{{url_for('auth.login')}}">Log in</a></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+  </body>
+ 
+{% endblock %}
+ 
