@@ -111,8 +111,10 @@ def delete(id):
         return "Delete error"
 
 @app.route('/', methods=['GET', 'POST'])
-@login_required
 def index():
+    if not current_user.is_authenticated:
+         return render_template("home.html")
+
     title = body = price = pic = None
     post_form = PostForm()
     if post_form.validate_on_submit():
