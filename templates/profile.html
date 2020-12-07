@@ -16,14 +16,62 @@
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <a class="active nav-link active" id="username-tab" data-toggle="tab" href="#username" role="tab" aria-controls="username" aria-selected="true" style="font-size:medium; color:#17a2b8;">Username settings</a>
+              <!-- <a class="active nav-link active" id="username-tab" data-toggle="tab" href="#username" role="tab" aria-controls="username" aria-selected="true" style="font-size:medium; color:#17a2b8;">Username settings</a> -->
+              <a class="active nav-link active" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="true" style="font-size:medium; color:#17a2b8;">Password settings</a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false"style="font-size:medium; color:#17a2b8">Password settings</a>
+              <a class="nav-link" id="username-tab" data-toggle="tab" href="#username" role="tab" aria-controls="username" aria-selected="false"style="font-size:medium; color:#17a2b8">Username settings</a>
             </li>
           </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane active" id= "username" aria-labelledby="user-tab" role="tabpanel">
+          <div class="tab-pane active" id= "password" aria-labelledby="password-tab" role="tabpanel">
+            <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">
+                {{ password_reset_form.csrf_token }}
+                {{ password_reset_form.hidden_tag()}}
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{ message }}
+                </div>
+              {% endfor %}
+              
+          <div class="row">
+            <div class="col">
+              <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Password</b></div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group" style="font-size: small;">
+                    <label>Current Password</label>
+                    {{password_reset_form.old_password (class_='form-control', rows="3", style="font-size: 100%;") }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group" style="font-size: small;">
+                    <label>New Password</label>
+                    {{password_reset_form.new_password (class_='form-control', rows="3", style="font-size: 100%;") }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group" style="font-size: small;">
+                    <label>Security question: <span class="d-none d-xl-inline">{{security_question}}</span></label>
+                    {{password_reset_form.security_answer (class_='form-control', rows="3", style="font-size: 100%;") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col d-flex justify-content">
+              <button class="btn btn-info btn-lg" type="submit">Save Changes</button>
+            </div>
+          </div>
+        </form>
+        </div>
+          <div class="tab-pane" id= "username" aria-labelledby="user-tab" role="tabpanel">
             <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">   
               {{ username_reset_form.csrf_token }}
               {{ username_reset_form.hidden_tag()}}   
@@ -69,53 +117,7 @@
               </div>
             </form>
           </div>
-            <div class="tab-pane" id= "password" aria-labelledby="password-tab" role="tabpanel">
-                <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">
-                    {{ password_reset_form.csrf_token }}
-                    {{ password_reset_form.hidden_tag()}}
-                    {% for message in get_flashed_messages() %}
-                    <div class="alert alert-warning">
-                      <button type="button" class="close" data-dismiss="alert">&times;</button>
-                      {{ message }}
-                    </div>
-                  {% endfor %}
-                  
-              <div class="row">
-                <div class="col">
-                  <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Password</b></div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group" style="font-size: small;">
-                        <label>Current Password</label>
-                        {{password_reset_form.old_password (class_='form-control', rows="3", style="font-size: 100%;") }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group" style="font-size: small;">
-                        <label>New Password</label>
-                        {{password_reset_form.new_password (class_='form-control', rows="3", style="font-size: 100%;") }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group" style="font-size: small;">
-                        <label>Security question: <span class="d-none d-xl-inline">{{security_question}}</span></label>
-                        {{password_reset_form.security_answer (class_='form-control', rows="3", style="font-size: 100%;") }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <div class="row">
-                <div class="col d-flex justify-content">
-                  <button class="btn btn-info btn-lg" type="submit">Save Changes</button>
-                </div>
-              </div>
-            </form>
-            </div>
+      
         </div>
         </div>
       </div>
