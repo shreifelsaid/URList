@@ -141,11 +141,10 @@ def profile():
 
     if username_reset_form.validate_on_submit():
 
-        security_answer = username_reset_form.security_answer.data
         old_password = username_reset_form.old_password.data
         new_username = username_reset_form.new_username.data
 
-        if not check_password_hash(existing_password, old_password) or not check_password_hash(existing_answer, security_answer):
+        if not check_password_hash(existing_password, old_password):
             flash("wrong password or security answer")
             return redirect(url_for('auth.profile'))
         user_already_exists = user.query.filter_by(username = new_username).first()
