@@ -3,6 +3,30 @@
 
 {% block page_content %}
 <body>
+
+  <p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Cart
+    </a>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <ul class="list-group">
+      <!-- TODO : improve design -->
+      {%for i in posts_table%}
+      {%if i.id in cart_list%}
+      <li class="list-group-item">{{i.title}}
+        {% set delete_from_cart_url= url_for('delete_from_cart', id=i.id)%}
+        <a href={{delete_from_cart_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
+            <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+          </button>
+        </a>
+      </li>
+      {%endif%}
+      {%endfor%}
+    </ul>
+  </div>
+
+  
 <div class="card gedf-card border-info">
   <div class="card-header text-white bg-info">
       <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -104,6 +128,17 @@
         </button>
       </a>
       {%endif%}
+      {%if not i.id in cart_list%}
+      {{cart_list.post_id}}
+      {% set add_to_cart_url= url_for('add_to_cart', id=i.id)%}
+      <a href="{{add_to_cart_url}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit" onclick="toggleFavorite()">
+          <span id= "favspan" class="glyphicon glyphicon-plus	pull-right" aria-hidden="true" ></span>
+        </button>
+      </a>
+
+      {%endif%}
+
+      
 
     </div>
   </div>

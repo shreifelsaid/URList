@@ -8,7 +8,9 @@ from flask_login import LoginManager, current_user, login_required
 from werkzeug.utils import secure_filename
 import os
 import uuid
-from models import db,user,posts
+from models import db,user,posts,items
+from sqlalchemy.exc import SQLAlchemyError
+
 
 
 IMAGE_UPLOAD_FOLDER = '/static/img'
@@ -66,6 +68,38 @@ def update(id):
             return "Update error"
     return render_template('update.html', update_form=update_form )
 
+@app.route('/add_to_cart/<int:id>', methods=['GET'])
+def add_to_cart(id):
+    already_in = items.query.filter_by(post_id=id).all()
+    if already_in:
+        return redirect(url_for('index'))
+    db_entry = items(post_id=id,email=current_user.email)
+    print(db_entry)
+    try:
+        db.session.add(db_entry)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        return error
+
+
+@app.route('/delete_from_cart/<int:id>', methods=['GET'])
+def delete_from_cart(id):
+    deleted_post = items.query.filter_by(post_id=id).first()
+    try:
+        db.session.delete(deleted_post)
+        db.session.commit()
+        return redirect(url_for('index'))
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        return error
+
+def cart_list():
+    return items.query.filter_by(email=current_user.email).all()
+
+
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
     deleted_post = posts.query.get_or_404(id)
@@ -100,6 +134,6 @@ def index():
     else :
         print(post_form.errors)
 
-    return render_template('index.html', post_form=post_form , posts_table=posts.query.order_by(posts.id.desc()).all(), current_user=current_user)
+    return render_template('index.html', post_form=post_form , posts_table=posts.query.order_by(posts.id.desc()).all(), current_user=current_user,cart_list = [item.post_id for item in cart_list()])
 
 
