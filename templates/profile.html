@@ -27,6 +27,12 @@
             <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">   
               {{ username_reset_form.csrf_token }}
               {{ username_reset_form.hidden_tag()}}   
+              {% for message in get_flashed_messages() %}
+                    <div class="alert alert-warning">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      {{ message }}
+                    </div>
+              {% endfor %}
               <div class="row">
                 <div class="col">
                     <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Username</b></div>
@@ -67,6 +73,13 @@
                 <form method="POST" action="{{url_for('auth.profile')}}" enctype="multipart/form-data">
                     {{ password_reset_form.csrf_token }}
                     {{ password_reset_form.hidden_tag()}}
+                    {% for message in get_flashed_messages() %}
+                    <div class="alert alert-warning">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+                  
               <div class="row">
                 <div class="col">
                   <div class="mb-2" style="font-size: large; margin-top: 2%;"><b>Change Password</b></div>
