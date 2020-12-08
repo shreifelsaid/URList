@@ -17,3 +17,5 @@ Account management includes changing the password and username. To change the pa
 If the user forgets their password when trying to log in, they have the option to log in using the security question, and then reset the password.
 
 This web application uses Flask as its web framework and SQLite database. It is installed on the UR Digital Scholar web server.
+
+Link to the application: http://enatali.digitalscholar.rochester.edu/urlistdemo/
