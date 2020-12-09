@@ -102,7 +102,14 @@ def cart_list():
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
+
     deleted_post = posts.query.get_or_404(id)
+    in_cart = items.query.filter_by(post_id=id).first()
+    if in_cart:
+        try:
+            db.session.delete(in_cart)
+        except:
+            return "Delete error"
     try:
         db.session.delete(deleted_post)
         db.session.commit()
@@ -135,7 +142,7 @@ def index():
             return "Database error"
     else :
         print(post_form.errors)
-
-    return render_template('index.html', post_form=post_form , posts_table=posts.query.order_by(posts.id.desc()).all(), current_user=current_user,cart_list = [item.post_id for item in cart_list()])
+    items_list = [item.post_id for item in cart_list()]
+    return render_template('index.html', post_form=post_form , posts_table=posts.query.order_by(posts.id.desc()).all(), current_user=current_user,cart_list =items_list, len_cart_list = len(items_list) )
 
 

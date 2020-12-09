@@ -2,8 +2,10 @@ Resources used for the project in addition to CSC 210 materials:
 Front-end
 https://hackersandslackers.com/flask-login-user-authentication/
 https://bootsnipp.com/snippets/yNa0V
-https://getbootstrap.com/docs/4.0/getting-started/introduction/
-
+https://getbootstrap.com/docs/4.0/getting-started/introduction/ --> Bootstrap documentation
+https://colorswall.com/palette/2868/
+https://mdbootstrap.com/docs/jquery/components/jumbotron/
+https://www.bootdey.com/snippets/view/bs4-edit-profile-page
 
 Back-end
 https://github.com/toddbirchard/flasklogin-tutorial

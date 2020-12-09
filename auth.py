@@ -105,6 +105,9 @@ def signup_post():
 
             flash("Username or email is already in use, log in!")
             return redirect(url_for('auth.login'))
+        if email.split('@')[1] != "u.rochester.edu":
+            flash("Invalid email. Only undergraduate addresses")
+            return redirect(url_for('auth.signup'))
         db_entry = user(email=email, username=username, password=generate_password_hash(password, method='sha256'),security_question=security_question, security_answer=generate_password_hash(security_answer, method='sha256'))
         try:
             db.session.add(db_entry)

@@ -3,148 +3,157 @@
 
 {% block page_content %}
 <body>
-
-  <p>
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-      Cart
-    </a>
-  </p>
-  <div class="collapse" id="collapseExample">
-    <ul class="list-group">
-      <!-- TODO : improve design -->
-      {%for i in posts_table%}
-      {%if i.id in cart_list%}
-      <li class="list-group-item">{{i.title}}
-        {% set delete_from_cart_url= url_for('delete_from_cart', id=i.id)%}
-        <a href={{delete_from_cart_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
-            <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
-          </button>
-        </a>
-      </li>
-      {%endif%}
-      {%endfor%}
-    </ul>
-  </div>
-
-  
-<div class="card gedf-card border-info">
-  <div class="card-header text-white bg-info">
-      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-              <a class="nav-link text-white bg-info" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="true" href="#images" style="font-size: large;">New Post</a>
-          </li>
-      </ul>
-  </div>
-  <div class="card-body">
-      <div class="tab-content " id="myTabContent">
-
-          <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab" style="font-size: 150%;">
-            <form method="POST" action="{{url_for('index')}}" enctype="multipart/form-data">
-            {{ post_form.csrf_token }}
-            {{ post_form.hidden_tag() }}
-              <div class="form-group">
-
-                <div class="form-group">
-                  <label class="text-info">Title</label>
-                  {{post_form.title (class_='form-control', rows="3", style="font-size: 100%;") }}
-                </div>
-
-                <div class="form-group">
-                  <label class="text-info">Description</label>
-                  {{post_form.body (class_='form-control', rows="3", style="font-size: 100%;") }}
-                </div>
-                <div class="form-group">
-                  <label class="text-info">Price</label>
-                  {{post_form.price (class_='form-control', rows="3" , style="font-size: 100%;") }}
-                </div>
-                <div class="custom-file">
-                  <label class="text-info">Image</label>
-                    {{ post_form.pic (style="font-size: 100%;")}}
-                </div>
-                  <div class="btn-toolbar left-content-between">
-                    <div class="btn-group" style="margin-top: 4%;">
-                        {{ post_form.submit(class_='btn btn-info btn-lg', style="font-size: 100%;")}}
+  <div class="container" style="padding-left: 0px; padding-right:0px">
+  <div class="row">
+    <div class="col-10">
+      <div class="card gedf-card border-info">
+        <div class="card-header text-white bg-info">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link text-white bg-info" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="true" href="#images" style="font-size: large;">New Post</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content " id="myTabContent">
+      
+                <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab" style="font-size: 150%;">
+                  <form method="POST" action="{{url_for('index')}}" enctype="multipart/form-data">
+                  {{ post_form.csrf_token }}
+                  {{ post_form.hidden_tag() }}
+                    <div class="form-group">
+      
+                      <div class="form-group">
+                        <label class="text-info">Title</label>
+                        {{post_form.title (class_='form-control', rows="3", style="font-size: 100%;") }}
+                      </div>
+      
+                      <div class="form-group">
+                        <label class="text-info">Description</label>
+                        {{post_form.body (class_='form-control', rows="3", style="font-size: 100%;") }}
+                      </div>
+                      <div class="form-group">
+                        <label class="text-info">Price</label>
+                        {{post_form.price (class_='form-control', rows="3" , style="font-size: 100%;") }}
+                      </div>
+                      <div class="custom-file">
+                        <label class="text-info">Image</label>
+                          {{ post_form.pic (style="font-size: 100%;")}}
+                      </div>
+                        <div class="btn-toolbar left-content-between">
+                          <div class="btn-group" style="margin-top: 4%;">
+                              {{ post_form.submit(class_='btn btn-info btn-lg', style="font-size: 100%;")}}
+                          </div>
+                          
+                      </div>
                     </div>
-                    
+                  </form>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      <div id="postfeed">
+        <div class="container-fluid  text-white bg-info " style="margin-top: 2%;" ><h2 style="margin: 2%;">Feed</h2></div>
+      
+      <ul id="posts" style="padding-left: 0px;">
+        {%for i in posts_table%}
+        <div id="post" class="card gedf-card" style="margin-left: 0px; margin-right: 0px;">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="mr-2">
+                  <img class="rounded-circle" width="50" height="50" src="{{url_for('static', filename ='/img/Blue.png')}}" alt="Author's picture">
+                </div>
+                <div class="ml-2">
+                  <div class="h5 m-0">{{i.author_username}}</div>
+                  <div class="h7 text-muted">{{i.author_email}}</div>
                 </div>
               </div>
-            </form>
+            </div>
+      
           </div>
-      </div>
-  </div>
-</div>
-
-<div id="postfeed">
-  <div class="container-fluid  text-white bg-info " style="margin-top: 2%;" ><h2 style="margin: 2%;">Feed</h2></div>
-
-<ul id="posts" style="padding-left: 0px;">
-  {%for i in posts_table%}
-  <div id="post" class="card gedf-card" style="margin-left: 0px; margin-right: 0px;">
-    <div class="card-header">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="mr-2">
-            <img class="rounded-circle" width="50" height="50" src="static/img/Blue.png" alt="Author's picture">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                
+                  <h5 class="card-title text-info" style="font-size: 250%;">{{i.title}}</h5>
+            
+      
+                <p class="card-text" style="font-size: 250%;">
+                  {{i.body}}
+                  <br>
+                  Price:{{i.price}}
+                </p>
+              </div>
+              <div class="col">
+                <div class="text-center">
+                  <img src="{{url_for('static', filename='/img/'+i.pic)}}" alt="user photo" class="superbox-img" style="max-width: 50%; width: 100%;">
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="ml-2">
-            <div class="h5 m-0">{{i.author_username}}</div>
-            <div class="h7 text-muted">{{i.author_email}}</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
           
-            <h5 class="card-title text-info" style="font-size: 250%;">{{i.title}}</h5>
+          <div class="card-footer">
+            {%if i.author_email == current_user.email%}
+            {% set update_url= url_for('update', id=i.id)%}
+            <a href={{update_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
+                <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+              </button>
+            </a>
+            {% set delete_url= url_for('delete', id=i.id)%}
+            <a href={{delete_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
+                <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+              </button>
+            </a>
+            {%endif%}
+            {%if not i.id in cart_list%}
+            {{cart_list.post_id}}
+            {% set add_to_cart_url= url_for('add_to_cart', id=i.id)%}
+            <a href="{{add_to_cart_url}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit" onclick="toggleFavorite()">
+                <span id= "favspan" class="glyphicon glyphicon-plus	pull-right" aria-hidden="true" ></span>
+              </button>
+            </a>
       
-
-          <p class="card-text" style="font-size: 250%;">
-            {{i.body}}
-            <br>
-            Price:{{i.price}}
-          </p>
-        </div>
-        <div class="col">
-          <div class="text-center">
-            <img src="{{url_for('static', filename='/img/'+i.pic)}}" alt="user photo" class="superbox-img" style="max-width: 50%; width: 100%;">
+            {%endif%}
+      
+            
+      
           </div>
         </div>
+        {%endfor%}
+      </ul>
       </div>
     </div>
-    
-    <div class="card-footer">
-      {%if i.author_email == current_user.email%}
-      {% set update_url= url_for('update', id=i.id)%}
-      <a href={{update_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
-          <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
-        </button>
-      </a>
-      {% set delete_url= url_for('delete', id=i.id)%}
-      <a href={{delete_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
-          <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
-        </button>
-      </a>
-      {%endif%}
-      {%if not i.id in cart_list%}
-      {{cart_list.post_id}}
-      {% set add_to_cart_url= url_for('add_to_cart', id=i.id)%}
-      <a href="{{add_to_cart_url}}"><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit" onclick="toggleFavorite()">
-          <span id= "favspan" class="glyphicon glyphicon-plus	pull-right" aria-hidden="true" ></span>
-        </button>
-      </a>
 
-      {%endif%}
-
+    <div class="col-2" >
       
+        <a class="btn btn-info btn-lg" data-toggle="collapse" id= "cart" href="#collapseCart" role="button" aria-expanded="false" aria-controls="collapseExample">
+          <span id= "favspan" class="glyphicon glyphicon-shopping-cart" style="font-size: 120%;"> Cart {{len_cart_list}}</span>
+        </a>
 
+      <div class="collapse" id="collapseCart">
+        <ul class="list-group">
+          {%for i in posts_table%}
+          {%if i.id in cart_list%}
+          <li class="list-group-item" style="font-size: 150%;">{{i.title}}
+            {% set delete_from_cart_url= url_for('delete_from_cart', id=i.id)%}
+            <a href={{delete_from_cart_url}}><button type="button" class="btn btn-default pull-right btn-lg" aria-label="edit">
+                <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+              </button>
+            </a>
+          </li>
+          {%endif%}
+          {%endfor%}
+        </ul>
+      </div>
     </div>
   </div>
-  {%endfor%}
-</ul>
 </div>
+
 </body>
+
+  
+
 
 {% endblock %}
