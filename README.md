@@ -1,5 +1,5 @@
 # URList
-U of R marketplace
+University of Rochester marketplace, built with Flask, SQLite and Jinja.
 
 Demo at : 
 
